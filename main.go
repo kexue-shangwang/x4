@@ -159,7 +159,7 @@ func handler(rw http.ResponseWriter, req *http.Request) {
 	req1.Body = ioutil.NopCloser(bytes.NewReader(data))
 	req1.ContentLength = int64(len(data))
 	req1.Header.Set("Content-Length", strconv.FormatInt(req1.ContentLength, 10))
-	forward := req.Header.Get("X-Forwarded-For", req.RemoteAddr)
+	forward := req.Header.Get("X-Forwarded-For")
 	req1.Header.Set("x-forwarded-for", forward)
 	req1.Header.Set("xx-forwarded-for", forward)
 	req1.Header.Set("x-front", "heroku")
