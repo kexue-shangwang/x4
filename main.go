@@ -151,7 +151,7 @@ func handler(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if req1.Host != "center.xx-net.net" && req1.Host != "dns.xx-net.net" {
+	if req1.Host != "center.xx-net.net" && req1.Host != "dns.xx-net.net" && req1.Host != "scan1.xx-net.net"  {
 		httpError(rw, "fetch Host:"+req1.Host+" deny.", http.StatusBadRequest)
 		return
 	}
@@ -159,6 +159,8 @@ func handler(rw http.ResponseWriter, req *http.Request) {
 	req1.Body = ioutil.NopCloser(bytes.NewReader(data))
 	req1.ContentLength = int64(len(data))
 	req1.Header.Set("Content-Length", strconv.FormatInt(req1.ContentLength, 10))
+	req1.Header.Set("x-forwarded-for", req.RemoteAddr)
+	req1.Header.Set("xx-forwarded-for", req.RemoteAddr)
 	req1.Header.Set("x-front", "heroku")
 
 	// log.Printf("%s \"%s %s %s\" - -", req.RemoteAddr, req1.Method, req1.URL.String(), req1.Proto)
